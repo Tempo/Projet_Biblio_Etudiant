@@ -145,8 +145,7 @@ public class Bibliotheque implements Serializable
         * La methode listerLecteur permet d'afficher la liste des numeros de lecteurs enregistres dans
         * la base de donnees de la bibliotheque.
         */
-        tBeans, allez dans Team > Clone...
-Indiquez l'adresse du dépôt de votre voisin puis Next
+
         public void listerLecteurs(){
             System.out.println("Liste des numéros de lecteurs enregistrés: ");
             for (int num : _dicoLecteur.keySet()){

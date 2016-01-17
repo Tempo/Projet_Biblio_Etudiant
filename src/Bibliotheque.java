@@ -8,7 +8,7 @@ import java.util.Iterator;
 // Classe de gestion de la Bibliotheque
 
 public class Bibliotheque implements Serializable 
-{ modifie
+{
 	
 	private static final long serialVersionUID = 262L;
 

@@ -1,9 +1,9 @@
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-// Classe de gestion de Lecteur
+// Classe de gestion des emprunts
 
-public class Exemplaire implements Serializable 
+public class Emprunt implements Serializable 
 {
 	
 	private static final long serialVersionUID = 422L;
@@ -12,17 +12,16 @@ public class Exemplaire implements Serializable
 		//Attributs
 	// -----------------------------------------------
 	
-                private Integer _numExemplaire;
-		private GregorianCalendar _dateReception;
-		private Disponibilite _dispo;
-                private Ouvrage _ouvrage;
-                private Emprunt _emprunt;
+		private GregorianCalendar _dateEmprunt;
+                private GregorianCalendar _dateRetour;
+                private Exemplaire _exemplaire;
+                private Lecteur _lecteur;
                 
 	// -----------------------------------------------
 		//Constructeur
 	// -----------------------------------------------
 		
-		public Exemplaire(Integer numExemplaire, GregorianCalendar dateReception, Disponibilite dispo, Ouvrage ouvrage)
+		public Emprunt(GregorianCalendar dateEmprunt, GregorianCalendar dateRetour, Exemplaire exemplaire, Lecteur lecteur)
 		{
 			this.setNumExemplaire(numExemplaire);
 			this.setDateReception(dateReception);

@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 
-// Classe de gestion de Lecteur
+// Classe de gestion des Exemplaires
 
 public class Exemplaire implements Serializable 
 {

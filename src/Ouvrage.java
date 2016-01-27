@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-// Classe de gestion de Lecteur
+// Classe de gestion des Ouvrages
 
 public class Ouvrage implements Serializable 
 {

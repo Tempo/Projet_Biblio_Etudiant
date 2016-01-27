@@ -15,7 +15,7 @@ public class Bibliotheque implements Serializable
 	// -----------------------------------------------
 		//Attributs
 	// -----------------------------------------------
-	
+
 		private HashMap<Integer, Lecteur> _dicoLecteur;
                 private HashMap<Integer, Ouvrage> _dicoOuvrage;
                 private Integer _derNumLect;
@@ -65,13 +65,13 @@ public class Bibliotheque implements Serializable
 		
 		if (L == null) 
 		{
-			String nom = EntreesSorties.lireChaine("Entrez le nom :");
-			String prenom = EntreesSorties.lireChaine("Entrez le prenom :");
+			String nom = EntreesSorties.lireChaine("Entrez le nom : ");
+			String prenom = EntreesSorties.lireChaine("Entrez le prenom : ");
 			Integer age;
 			GregorianCalendar dateNaiss, dateNaissComp;
 			GregorianCalendar dateActuelle = new GregorianCalendar();
 			do {
-				dateNaiss = EntreesSorties.lireDate("Entrez la date de naissance du lecteur :");
+				dateNaiss = EntreesSorties.lireDate("Entrez la date de naissance du lecteur : ");
 				dateNaissComp = new GregorianCalendar(dateActuelle.get(GregorianCalendar.YEAR), dateNaiss.get(GregorianCalendar.MONTH), dateNaiss.get(GregorianCalendar.DATE));
 				if(dateNaissComp.before(dateActuelle)){
 					age=dateActuelle.get(GregorianCalendar.YEAR)-dateNaiss.get(GregorianCalendar.YEAR);
@@ -86,13 +86,13 @@ public class Bibliotheque implements Serializable
 					EntreesSorties.afficherMessage("Age du lecteur : " + age + " ans");
 				}
 			} while ((age<=3) | (age>=110));
-			String adresse = EntreesSorties.lireChaine("Entrez l'adresse :");
-			String tel = EntreesSorties.lireChaine("Entrez le numero de telephone :");
+			String adresse = EntreesSorties.lireChaine("Entrez l'adresse du lecteur : ");
+			String tel = EntreesSorties.lireChaine("Entrez le numero de telephone : ");
 			EntreesSorties.afficherMessage("Fin de saisie");
 			
 			L = new Lecteur(nom, prenom, numLecteur, dateNaiss, adresse, tel);
 			EntreesSorties.afficherMessage("Le nouveau lecteur a été créé avec succés!");                        
-                        
+                        EntreesSorties.afficherMessage("Son numéro de lecteur est le : " + numLecteur);                     
 			lierLecteur(numLecteur, L);
 		}
 		else {

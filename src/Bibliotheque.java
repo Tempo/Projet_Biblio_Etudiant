@@ -96,7 +96,7 @@ public class Bibliotheque implements Serializable
 			lierLecteur(numLecteur, L);
 		}
 		else {
-			EntreesSorties.afficherMessage("Ce numero de lecteur existe deja.");
+			EntreesSorties.afficherMessage("ERREUR : ce numero de lecteur existe deja.");
 		}
 		
 	}
@@ -108,15 +108,23 @@ public class Bibliotheque implements Serializable
         public void supprimerLecteur(){
 
                 Integer numLecteur = EntreesSorties.lireEntier("Entrez le numero du lecteur à supprimer:");
-		Lecteur L = unLecteur(numLecteur);
+		Lecteur l = unLecteur(numLecteur);
 		
-		if (L != null) 
-		{                      
+		if (l != null)
+                {
+                    if(l.etatSansEmprunt())
+                     {                      
 			this.delierLecteur(numLecteur);
                         System.out.println("Le lecteur a été supprimé avec succès!");
-		}
-		else {
-			EntreesSorties.afficherMessage("Ce numero de lecteur n'existe pas.");
+                     }
+                    else
+                    {
+			EntreesSorties.afficherMessage("ERREUR : ce lecteur a des emprunts en cours et ne peut pas être supprimé...");                        
+                    }
+                }    
+		else 
+                {
+			EntreesSorties.afficherMessage("ERREUR : ce numero de lecteur n'existe pas.");
 		}
             
         }
@@ -137,7 +145,7 @@ public class Bibliotheque implements Serializable
 			L.afficherLecteur();
 		}
 		else {
-			EntreesSorties.afficherMessage("Aucun lecteur n'est associe a ce numero.");
+			EntreesSorties.afficherMessage("ERREUR : aucun lecteur n'est associe a ce numero.");
 		}
 	}
         
@@ -145,7 +153,7 @@ public class Bibliotheque implements Serializable
         * La methode listerLecteur permet d'afficher la liste des numeros de lecteurs enregistres dans
         * la base de donnees de la bibliotheque.
         */
-
+        
         public void listerLecteurs(){
             System.out.println("Liste des numéros de lecteurs enregistrés: ");
             for (int num : _dicoLecteur.keySet()){
@@ -190,21 +198,21 @@ public class Bibliotheque implements Serializable
                                     PublicCible publicCible = PublicCible.valueOf(sPublicCible);
                                     ok = true;
                                     GregorianCalendar dateParution;
-                                    dateParution = EntreesSorties.lireDate("Entrez la date de parution: ");
+                                    dateParution = EntreesSorties.lireDate("Entrez la date de Parution: ");
                                     EntreesSorties.afficherMessage("Fin de saisie");
 			
                                     O = new Ouvrage(ISBN, titreOuvrage, nomsAuteurs, nomEditeur, publicCible, dateParution);
                                     EntreesSorties.afficherMessage("Le nouvel ouvrage a été créé avec succés!");                                    
                                 }catch (Exception e){
                                 ok = false;
-                                System.out.println("La public cible saisi est invalide...");
+                                System.out.println("ERREUR : le public cible saisi est invalide...");
                             }
                         }while(!ok);			
                         
                         lierOuvrage(ISBN, O);                      
 		}
 		else {
-			EntreesSorties.afficherMessage("Ce numéro ISBN existe deja pour un ouvrage.");
+			EntreesSorties.afficherMessage("ERREUR : ce numéro ISBN existe deja pour un ouvrage.");
 		}
 		
 	}
@@ -219,12 +227,18 @@ public class Bibliotheque implements Serializable
 		Ouvrage O = unOuvrage(ISBN);
 		
 		if (O != null) 
-		{                      
+		{   
+                    if(O.etatSansExemplaire())
+                    {                       
 			this.delierOuvrage(ISBN);
                         System.out.println("L'ouvrage a été supprimé avec succès!");
+                    }
+                    else{
+                        EntreesSorties.afficherMessage("ERREUR : pour supprimer l'ouvrage, supprimer au préalable ses exemplaires");
+                    }
 		}
 		else {
-			EntreesSorties.afficherMessage("Ce numero d'ouvrage n'existe pas.");
+			EntreesSorties.afficherMessage("ERREUR : ce numero d'ouvrage n'existe pas.");
 		}
             
         }
@@ -245,7 +259,7 @@ public class Bibliotheque implements Serializable
 			O.afficherOuvrage();
 		}
 		else {
-			EntreesSorties.afficherMessage("Aucun ouvrage n'est associe a ce numero ISBN.");
+			EntreesSorties.afficherMessage("ERREUR : aucun ouvrage n'est associe a ce numero ISBN.");
 		}
 	}
 
@@ -275,36 +289,31 @@ public class Bibliotheque implements Serializable
 	{
 		
                 Integer ISBN = EntreesSorties.lireEntier("Entrez le numero ISBN de l'exemplaire: ");
-		Ouvrage O = unOuvrage(ISBN);
+		Ouvrage o = unOuvrage(ISBN);
 		String nouvelExemplaire = "oui";
                 GregorianCalendar dateReception = null;
-                Boolean ok = false;
                 
-		if (O != null) 
+		if (o != null) 
 		{
                  while(nouvelExemplaire.equals("oui")) {
-                    
-                    do{
                         dateReception = EntreesSorties.lireDate("Entrez la date de Reception de l'exemplaire: ");
-                        if (dateReception.before(O.getDateParution()))
-                            System.out.println("La date de réception de l'exemplaire ne peut pas être antérieure à la date de parution de l'ouvrage...");
-                    }while(dateReception.before(O.getDateParution()));
-                        
-                    do{
-                            try{
-                                    String sDispo = EntreesSorties.lireChaine("Disponibilité de l'exemplaire (empruntable/consultable)?");                                    
-                                    Disponibilite dispo = Disponibilite.valueOf(sDispo);
-                                    ok = true;
-                                    
-                                    O.nouvelExemplaire(dateReception, dispo);
-		
-                                    EntreesSorties.afficherMessage("Le nouvel exemplaire a été créé avec succés!");                                    
-                                }catch (Exception e){
-                                ok = false;
-                                System.out.println("La disponibilite saisie est invalide...");
+                        if (!dateReception.before(o.getDateParution()))
+                        {
+                            String sDispo = EntreesSorties.lireChaine("Disponibilité de l'exemplaire (empruntable/consultable)?");                                                             
+                            if((sDispo.equals("consultable")) || (sDispo.equals("empruntable")))
+                            {
+                                Disponibilite dispo = Disponibilite.valueOf(sDispo);                                    
+                                o.nouvelExemplaire(dateReception, dispo);                            
                             }
-                        }while(!ok);			
-                   
+                            else
+                            {
+                                System.out.println("ERREUR : la disponibilite saisie est invalide...");                                
+                            }
+                        }
+                        else
+                        {
+                            System.out.println("ERREUR : la date de réception de l'exemplaire doit être postérieure à la date de parution de l'ouvrage"  + " (" + EntreesSorties.ecrireDate(o.getDateParution()) + ")");                            
+                        }                              
                     nouvelExemplaire = EntreesSorties.lireChaine("Voulez-vous rentrer un autre exemplaire (oui/non)?");
                     
                     while (!nouvelExemplaire.equals("oui") && !nouvelExemplaire.equals("non")){
@@ -313,7 +322,7 @@ public class Bibliotheque implements Serializable
                  }                 
 		}
 		else {
-			EntreesSorties.afficherMessage("Ce numéro ISBN n'existe pas...");
+			EntreesSorties.afficherMessage("ERREUR : ce numéro ISBN n'existe pas...");
 		}
 		
 	}
@@ -326,7 +335,7 @@ public class Bibliotheque implements Serializable
 		if (O != null) 
                     O.supprimerExemplaire();
 		else 
-                    EntreesSorties.afficherMessage("Ce numero ISBN n'est pas référencé...");
+                    EntreesSorties.afficherMessage("ERREUR : ce numero ISBN n'est pas référencé...");
         }
                 
 	/*
@@ -342,21 +351,181 @@ public class Bibliotheque implements Serializable
 		Ouvrage O = unOuvrage(ISBN);
 		
 		if (O!=null){
-			O.afficherTitreISBN();
+			O.afficherTitreNbEx();
                         O.afficherExemplaires();
                 }
 		else {
-			EntreesSorties.afficherMessage("Aucun ouvrage n'est associe a ce numero ISBN.");
+			EntreesSorties.afficherMessage("ERREUR : aucun ouvrage n'est associe a ce numero ISBN.");
 		}
 	}
         
+        /*
+        * La méthode emprunterExemplaire permet au lecteur saisi d'emprunter l'exemplaire selectionne
+        */
+	
+	public void emprunterExemplaire()
+	{
+		
+            Integer numLect = EntreesSorties.lireEntier("Entrez le numero du lecteur concerné: ");
+            Lecteur l = unLecteur(numLect);      
+            String nouvelEmprunt = "oui";
+            GregorianCalendar dateEmprunt = new GregorianCalendar();
+            GregorianCalendar dateReception = new GregorianCalendar();
+            Integer ISBN = 0;
+            Integer numExemplaire = 0;
+                
+            if (l != null) 
+            {
+                if (l.etatNonSature())
+                {
+                    while(nouvelEmprunt.equals("oui"))
+                    {
+                        ISBN = EntreesSorties.lireEntier("Entrez le numero ISBN de l'exemplaire: ");                        
+                    
+                        Ouvrage o = this.unOuvrage(ISBN);
+                        if(o != null)
+                        {
+                            numExemplaire = EntreesSorties.lireEntier("Entrez le numero de l'exemplaire: ");
+                            Exemplaire ex = this.unExemplaire(ISBN, numExemplaire);
+                            
+                            if(ex != null)
+                            {
+                                if (ex.etatNonEmprunte())
+                                {
+                                    if (ex.empruntable())
+                                    {
+                                        if(this.publicOk(o,l))
+                                        {    
+                                            dateEmprunt = EntreesSorties.lireDate("Entrez la date d'emprunt de l'exemplaire: ");                                        
+                                            dateReception = ex.getDateReception();
+                                            if(!dateEmprunt.before(dateReception))
+                                            {
+                                                Emprunt emprunt=new Emprunt(ex,l,dateEmprunt);                                        
+                                                EntreesSorties.afficherMessage("L'exemplaire a été emprunté avec succès!");
+                                            }
+                                            else
+                                            {
+                                                EntreesSorties.afficherMessage("ERREUR : La date d'emprunt doit être après la date de réception de l'exemplaire " + "(" + EntreesSorties.ecrireDate(dateReception) + ")");
+                                            }
+                                        }
+                                        else
+                                        {
+                                                EntreesSorties.afficherMessage("ERREUR : le public cible de l'ouvrage est incompatible avec l'âge du lecteur!");                                            
+                                        }
+                                    }
+                                    else
+                                    {
+                                        EntreesSorties.afficherMessage("ERREUR : cet exemplaire est seulement consultable sur place...");                                    
+                                    }
+                                }
+                                else
+                                {
+                                    EntreesSorties.afficherMessage("ERREUR : l'exemplaire est deja emprunte...");                                    
+                                }
+                            }
+                            else
+                            {
+                                EntreesSorties.afficherMessage("Ces donnees ne correspondent a aucun exemplaire...");                                
+                            }
+                        }
+                        else
+                        {
+                                    EntreesSorties.afficherMessage("ERREUR : cet ISBN ne correspond à aucun ouvrage...");                                                                
+                        }                        
+                        nouvelEmprunt = EntreesSorties.lireChaine("Voulez-vous enregistrer un nouvel emprunt (oui/non)?");
+                    
+                        while (!nouvelEmprunt.equals("oui") && !nouvelEmprunt.equals("non"))
+                        {
+                                nouvelEmprunt = EntreesSorties.lireChaine("Voulez-vous enregistrer un nouvel emprunt (oui/non)?");                        
+                        }  
+                    }        
+                }
+                else
+                {
+                    EntreesSorties.afficherMessage("ERREUR : ce lecteur a deja emprunte plus de 5 exemplaires...");                    
+                }
+            }
+            else 
+            {
+                EntreesSorties.afficherMessage("ERREUR : ce numero de lecteur n'existe pas...");
+            }
+        }
+        
+        /*
+        * La méthode rendreExemplaire permet au lecteur saisi de rendre un exemplaire emprunté
+        */        
+         public void rendreExemplaire(){
+            Integer ISBN = EntreesSorties.lireEntier("Entrez le numero ISBN de l'ouvrage emprunté: ");                        
+            Integer numExemplaire = EntreesSorties.lireEntier("Entrez le numero de l'exemplaire emprunté: ");
+
+            Emprunt emp = this.unEmprunt(ISBN, numExemplaire);
+            
+            if (emp != null)
+            {
+                emp.rendreEmprunt();
+                EntreesSorties.afficherMessage("L'emprunt a bien été rendu.");                
+            }
+            else
+            {
+                EntreesSorties.afficherMessage("ERREUR : cette référence ne correspond pas à un emprunt...");
+            }
+            
+         }
+
+
+         /*
+         * La methode consulterEmpruntsLecteur permet d'afficher les emprunt d'un lecteur donné
+         */
+         
+        public void consulterEmpruntsLecteur()
+	{
+            Integer numLecteur = EntreesSorties.lireEntier("Entrez le numero du lecteur : ");
+            Lecteur l = unLecteur(numLecteur);		
+		if (l!=null)
+                {
+			l.afficherNomPrenom();
+                        EntreesSorties.afficherMessage("");                        
+                        l.afficherEmprunts();
+		}
+		else 
+                {
+			EntreesSorties.afficherMessage("ERREUR : aucun lecteur n'est associe a ce numero.");
+		}
+	}
+        
+        /*
+        * La methode relancer lecteur permet d'afficher les informations concernant les emprunts
+        * en retard au sein de la bibliothèque
+        */
+        
+        public void relancerLecteur()
+        {
+            Integer nbRetard= 0;
+            for(Iterator<Lecteur> iter = this.lesLecteurs(); iter.hasNext();)
+            {
+                for(Emprunt emprunt : iter.next().getEmprunts())
+                {
+                    if(emprunt.retard())
+                    {
+                        emprunt.afficherLecteurEmprunt();
+                        emprunt.afficherEmprunt();
+                        nbRetard = nbRetard + 1;
+                    }
+                }
+                
+            }
+            if(nbRetard == 0)
+            {
+                EntreesSorties.afficherMessage("Il n'y a aucun retard à la bibliothèque!");                
+            }
+        }
         
         
 // -----------------------------------------------
 	// Private
 // -----------------------------------------------
 	//-----------------------------------------------
-                //Getters
+                //Gettersparameter
         //-----------------------------------------------
 
         private Integer getDerNumLect(){
@@ -400,6 +569,27 @@ public class Bibliotheque implements Serializable
         */
         private Ouvrage unOuvrage(Integer ISBN){
             return _dicoOuvrage.get(ISBN);
+        }
+        
+        /*
+        * La methode unExemplaire permet de recherche l'existence de l'exemplaire dont les attributs sont rentres
+        * en parametres
+        */
+        
+        private Exemplaire unExemplaire(Integer ISBN, Integer numExemplaire){
+            Ouvrage O;
+            O = this.unOuvrage(ISBN);
+            return O.unExemplaire(numExemplaire);
+        }
+        
+        /*
+        * La methode unEmprunt permet de rechercher l'existence d'un emprunt pour un lecteur donne
+        */
+        
+        private Emprunt unEmprunt(Integer ISBN, Integer numExemplaire){
+            Exemplaire e;
+            e=this.unExemplaire(ISBN, numExemplaire);
+            return e.getEmprunt();
         }
         
         
@@ -452,4 +642,25 @@ public class Bibliotheque implements Serializable
             _NumTempLect = _NumTempLect + 1;
             this.setDerNumLect(_NumTempLect);
         }
+        
+        /*
+        * La méthode publicOk permet de connaître la compatibilité d'un lecteur avec un ouvrage donné
+        * Renvoie vrai pour le lecteur adulte quelque soit le pubilc cible de l'ouvrage
+        * Renvoie vrai pour le lecteur ado et pour un public cible de l'ouvrage enfant ou ado
+        * Renvoie vrai pour le lecteur enfant lorsque le public cible de l'ouvrage est enfant
+        */
+        
+        private boolean publicOk(Ouvrage o, Lecteur l)
+        {
+            Integer ageLect;
+            PublicCible publicOuvrage;
+            ageLect = l.calculAge();
+            publicOuvrage = o.getPublicCible();
+
+            return ((ageLect>=18) || 
+            (ageLect<18 && ageLect>=12 && (publicOuvrage.equals(PublicCible.ado) || publicOuvrage.equals(PublicCible.enfant))) ||
+            (ageLect<12 && publicOuvrage.equals(PublicCible.enfant)));        
+           
+        }
+        
 }

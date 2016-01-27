@@ -46,43 +46,31 @@ public class Ouvrage implements Serializable
 // -----------------------------------------------
 	// Public
 // -----------------------------------------------
-		
-		// -----------------------------------------------
-			//Getters
-		// -----------------------------------------------
-	
-		public Integer getISBN() {
-			return _ISBN;
-		}
-
-		public String getTitreOuvrage() {
-			return _titreOuvrage;
-		}
-
-		public String getNomEditeur() {
-			return _nomEditeur;
-		}
-
-		public HashSet<String> getNomsAuteurs() {
-			return _nomsAuteurs;
-		}
                 
-		public PublicCible getPublicCible() {
-			return _publicCible;
-		}
-                		
+                //------------------------------------------------
+                        //Getters
+                //------------------------------------------------
+                
 		public GregorianCalendar getDateParution() {
 			return _dateParution;
 		}
 
-                public Integer getNbExemplaires(){
-                    return _nbExemplaires;
-                }
-
+                public PublicCible getPublicCible() {
+			return _publicCible;
+		}
+                
                 // -----------------------------------------------
 			// Methodes
 		// -----------------------------------------------
-		
+
+                /*
+                * La méthode unExemplaire permet de rechercher dans la base de données de l'ouvrage un objet
+                * exemplaire identifié par son numExemplaire, et de renvoyer l'objet (ou la valeur null s'il n'a pas été trouvé).
+                */
+                public Exemplaire unExemplaire(Integer numExemplaire){
+                    return _dicoExemplaire.get(numExemplaire);
+                }
+                                
 		/*
 		 * La methode afficherOuvrage affiche l'ensemble des informations relatives a un lecteur.
 		 */
@@ -106,14 +94,24 @@ public class Ouvrage implements Serializable
 		}
 
 		/*
-		 * La methode afficherTitreISBN affiche le titre et l'ISBN de l'ouvrage considéré.
+		 * La methode afficherISBNTitreNbEx affiche l'ISBN le titre et le nombre d'exemplaires
+                 * de l'ouvrage considéré.
 		 */
-		public void afficherTitreISBN()
+		public void afficherTitreNbEx()
 		{
-			System.out.println("ISBN : " + this.getISBN());
 			System.out.println("Titre de l'ouvrage: " + this.getTitreOuvrage());
                         System.out.println("Nombre d'exemplaires: " + this.getNbExemplaires());
 			EntreesSorties.afficherMessage("");
+		}
+
+		/*
+		 * La methode afficherTitreISBN affiche l'ISBN le titre et le nombre d'exemplaires
+                 * de l'ouvrage considéré.
+		 */
+		public void afficherISBNTitre()
+		{
+			System.out.println("ISBN : " + this.getISBN());
+			System.out.println("Titre de l'ouvrage: " + this.getTitreOuvrage());
 		}
                 
                 /*
@@ -158,17 +156,31 @@ public class Ouvrage implements Serializable
                 Integer numExemplaire = EntreesSorties.lireEntier("Entrez le numero de l'exemplaire à supprimer :");
 		Exemplaire E = unExemplaire(numExemplaire);
 		
-		if (E != null) 
-		{                      
+		if (E != null)
+                {
+                    if(E.etatNonEmprunte())                    
+                    {                      
 			this.delierExemplaire(numExemplaire);
                         this.supprimerUnNbExemplaire();
                         System.out.println("L'exemplaire a été supprimé avec succès!");
-		}
-		else {
-			EntreesSorties.afficherMessage("Ce numero d'exemplaire n'est pas référencé...");
+                    }
+                    else
+                    {
+			EntreesSorties.afficherMessage("ERREUR: cet exemplaire est actuellement emprunte...");                        
+                    }
+                }
+		else
+                {
+			EntreesSorties.afficherMessage("ERREUR: Ce numero d'exemplaire n'est pas référencé...");
 		}
             
         }
+        
+        
+        
+                public boolean etatSansExemplaire(){
+                    return this.getNbExemplaires()==0;
+                }
                 
 	
 // -----------------------------------------------
@@ -180,6 +192,26 @@ public class Ouvrage implements Serializable
                 //------------------------------------------------
                 private Integer getDerNumEx(){
                     return _derNumEx;
+                }
+	
+		private Integer getISBN() {
+			return _ISBN;
+		}
+
+		private String getTitreOuvrage() {
+			return _titreOuvrage;
+		}
+
+		private String getNomEditeur() {
+			return _nomEditeur;
+		}
+
+		private HashSet<String> getNomsAuteurs() {
+			return _nomsAuteurs;
+		}
+                
+                private Integer getNbExemplaires(){
+                    return _nbExemplaires;
                 }
                                
 		// -----------------------------------------------
@@ -224,16 +256,8 @@ public class Ouvrage implements Serializable
                 
                 //-------------------------------------------
                         // Methodes
-                //-------------------------------------------
-                                
-                /*
-                * La méthode unExemplaire permet de rechercher dans la base de données de l'ouvrage un objet
-                * exemplaire identifié par son numExemplaire, et de renvoyer l'objet (ou la valeur null s'il n'a pas été trouvé).
-                */
-                private Exemplaire unExemplaire(Integer numExemplaire){
-                    return _dicoExemplaire.get(numExemplaire);
-                }
-               
+                //-------------------------------------------                                                                              
+                
                 /*
                 * La méthode lierExemplaire permet d'ajouter un exemplaire a la base de données de ouvrage.
                 */

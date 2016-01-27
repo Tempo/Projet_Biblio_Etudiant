@@ -19,6 +19,7 @@ public void menuPrincipal() {
 		EntreesSorties.afficherMessage("| Menu Lecteur : 1                                       |");
 		EntreesSorties.afficherMessage("| Menu Ouvrage : 2                                       |");
                 EntreesSorties.afficherMessage("| Menu Exemplaire: 3                                     |");
+                EntreesSorties.afficherMessage("| Menu Emprunt: 4                                        |");
                 EntreesSorties.afficherMessage("| Quitter : 0                                            |");
 		EntreesSorties.afficherMessage(" ========================================================");
 		menu = EntreesSorties.lireEntier();
@@ -36,6 +37,11 @@ public void menuPrincipal() {
                                 
                                 case 3 : {
                                         this.menuExemplaire();
+                                        break;
+                                }
+                                
+                                case 4 : {
+                                        this.menuEmprunt();
                                         break;
                                 }
 				
@@ -170,6 +176,40 @@ public void menuExemplaire() {
 	} while (menuLect != 0);	
 }
 
-
+public void menuEmprunt() {
+	Integer menuEmprunt;
+	do {
+		EntreesSorties.afficherMessage(" ========================================================");
+		EntreesSorties.afficherMessage("| Saisissez un numero correspondant :                    |");
+		EntreesSorties.afficherMessage("| Nouvel emprunt : 1                                     |");
+                EntreesSorties.afficherMessage("| Rendre un emprunt : 2                                  |");
+		EntreesSorties.afficherMessage("| Consulter les emprunts d'un lecteur : 3                |");
+                EntreesSorties.afficherMessage("| Consulter les retards : 4                              |");
+                EntreesSorties.afficherMessage("| Retour Menu Principal : 0                              |");
+		EntreesSorties.afficherMessage(" ========================================================");
+		menuEmprunt = EntreesSorties.lireEntier();
+			
+			switch (menuEmprunt){
+				case 1 : {
+					_bibliotheque.emprunterExemplaire();
+					break;
+				}
+                                case 2 : {
+                                        _bibliotheque.rendreExemplaire();
+                                        break;
+                                }
+				case 3 : {
+					_bibliotheque.consulterEmpruntsLecteur();
+					break;
+				}
+                                case 4 : {
+                                        _bibliotheque.relancerLecteur();
+                                }
+				default : {
+					break;
+				}                               
+			}
+	} while (menuEmprunt != 0);	
 }
 
+}

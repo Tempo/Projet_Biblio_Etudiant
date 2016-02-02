@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-// Classe de gestion d'ouvrage
+// Classe de gestion d'ouvrage TEST
 
 public class Ouvrage implements Serializable 
 {

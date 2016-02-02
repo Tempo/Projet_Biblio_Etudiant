@@ -1,8 +1,11 @@
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
-// Classe de gestion des Emprunts
+// Classe de gestion de Lecteur
 
 public class Emprunt implements Serializable 
 {

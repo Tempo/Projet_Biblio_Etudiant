@@ -15,9 +15,9 @@ public class Bibliotheque implements Serializable
 	// -----------------------------------------------
 		//Attributs
 	// -----------------------------------------------
-
+	
 		private HashMap<Integer, Lecteur> _dicoLecteur;
-                private HashMap<Integer, Ouvrage> _dicoOuvrage;
+                private HashMap<String, Ouvrage> _dicoOuvrage;
                 private Integer _derNumLect;
 		
 		/*
@@ -32,7 +32,7 @@ public class Bibliotheque implements Serializable
 
 		public Bibliotheque() {
 			this.setLecteurs(new HashMap<Integer, Lecteur>());
-                        this.setOuvrages(new HashMap<Integer, Ouvrage>());
+                        this.setOuvrages(new HashMap<String, Ouvrage>());
                         this.setDerNumLect(0);
 		
 		}
@@ -65,13 +65,13 @@ public class Bibliotheque implements Serializable
 		
 		if (L == null) 
 		{
-			String nom = EntreesSorties.lireChaine("Entrez le nom : ");
-			String prenom = EntreesSorties.lireChaine("Entrez le prenom : ");
+			String nom = EntreesSorties.lireChaine("Entrez le nom :");
+			String prenom = EntreesSorties.lireChaine("Entrez le prenom :");
 			Integer age;
 			GregorianCalendar dateNaiss, dateNaissComp;
 			GregorianCalendar dateActuelle = new GregorianCalendar();
 			do {
-				dateNaiss = EntreesSorties.lireDate("Entrez la date de naissance du lecteur : ");
+				dateNaiss = EntreesSorties.lireDate("Entrez la date de naissance du lecteur :");
 				dateNaissComp = new GregorianCalendar(dateActuelle.get(GregorianCalendar.YEAR), dateNaiss.get(GregorianCalendar.MONTH), dateNaiss.get(GregorianCalendar.DATE));
 				if(dateNaissComp.before(dateActuelle)){
 					age=dateActuelle.get(GregorianCalendar.YEAR)-dateNaiss.get(GregorianCalendar.YEAR);
@@ -86,13 +86,13 @@ public class Bibliotheque implements Serializable
 					EntreesSorties.afficherMessage("Age du lecteur : " + age + " ans");
 				}
 			} while ((age<=3) | (age>=110));
-			String adresse = EntreesSorties.lireChaine("Entrez l'adresse du lecteur : ");
-			String tel = EntreesSorties.lireChaine("Entrez le numero de telephone : ");
+			String adresse = EntreesSorties.lireChaine("Entrez l'adresse :");
+			String tel = EntreesSorties.lireChaine("Entrez le numero de telephone :");
 			EntreesSorties.afficherMessage("Fin de saisie");
 			
 			L = new Lecteur(nom, prenom, numLecteur, dateNaiss, adresse, tel);
 			EntreesSorties.afficherMessage("Le nouveau lecteur a été créé avec succés!");                        
-                        EntreesSorties.afficherMessage("Son numéro de lecteur est le : " + numLecteur);                     
+                        
 			lierLecteur(numLecteur, L);
 		}
 		else {
@@ -175,7 +175,7 @@ public class Bibliotheque implements Serializable
 	{
 		
                 boolean ok = false;
-                Integer ISBN = EntreesSorties.lireEntier("Entrez le numero ISBN de l'ouvrage: ");
+                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'ouvrage: ");
 		Ouvrage O = unOuvrage(ISBN);
 		
 		if (O == null) 
@@ -223,7 +223,7 @@ public class Bibliotheque implements Serializable
         
         public void supprimerOuvrage(){
 
-                Integer ISBN = EntreesSorties.lireEntier("Entrez le numero ISBN de l'ouvrage à supprimer:");
+                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'ouvrage à supprimer:");
 		Ouvrage O = unOuvrage(ISBN);
 		
 		if (O != null) 
@@ -251,7 +251,7 @@ public class Bibliotheque implements Serializable
 	 */        
 	public void consulterOuvrage()
 	{
-                Integer ISBN = EntreesSorties.lireEntier("Entrez le numero ISBN : ");
+                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN : ");
 		
 		Ouvrage O = unOuvrage(ISBN);
 		
@@ -270,7 +270,7 @@ public class Bibliotheque implements Serializable
         
         public void listerOuvrages(){
             System.out.println("Liste des numéros ISBN des ouvrages enregistrés: ");
-            for (int ISBN : _dicoOuvrage.keySet()){
+            for (String ISBN : _dicoOuvrage.keySet()){
                 System.out.println(ISBN);
             }               
         }
@@ -288,7 +288,7 @@ public class Bibliotheque implements Serializable
 	public void nouvelExemplaire()
 	{
 		
-                Integer ISBN = EntreesSorties.lireEntier("Entrez le numero ISBN de l'exemplaire: ");
+                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'exemplaire: ");
 		Ouvrage o = unOuvrage(ISBN);
 		String nouvelExemplaire = "oui";
                 GregorianCalendar dateReception = null;
@@ -329,7 +329,7 @@ public class Bibliotheque implements Serializable
   
         public void supprimerExemplaire(){
 
-                Integer ISBN = EntreesSorties.lireEntier("Entrez le numero ISBN de l'exemplaire à supprimer :");
+                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'exemplaire à supprimer :");
 		Ouvrage O = unOuvrage(ISBN);
 		
 		if (O != null) 
@@ -347,7 +347,7 @@ public class Bibliotheque implements Serializable
 
         public void consulterExemplairesOuvrage()
 	{
-                Integer ISBN = EntreesSorties.lireEntier("Entrez le numero ISBN : ");
+                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN : ");
 		Ouvrage O = unOuvrage(ISBN);
 		
 		if (O!=null){
@@ -371,7 +371,7 @@ public class Bibliotheque implements Serializable
             String nouvelEmprunt = "oui";
             GregorianCalendar dateEmprunt = new GregorianCalendar();
             GregorianCalendar dateReception = new GregorianCalendar();
-            Integer ISBN = 0;
+            String ISBN = "";
             Integer numExemplaire = 0;
                 
             if (l != null) 
@@ -380,7 +380,7 @@ public class Bibliotheque implements Serializable
                 {
                     while(nouvelEmprunt.equals("oui"))
                     {
-                        ISBN = EntreesSorties.lireEntier("Entrez le numero ISBN de l'exemplaire: ");                        
+                        ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'exemplaire: ");                        
                     
                         Ouvrage o = this.unOuvrage(ISBN);
                         if(o != null)
@@ -455,7 +455,7 @@ public class Bibliotheque implements Serializable
         * La méthode rendreExemplaire permet au lecteur saisi de rendre un exemplaire emprunté
         */        
          public void rendreExemplaire(){
-            Integer ISBN = EntreesSorties.lireEntier("Entrez le numero ISBN de l'ouvrage emprunté: ");                        
+            String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'ouvrage emprunté: ");                        
             Integer numExemplaire = EntreesSorties.lireEntier("Entrez le numero de l'exemplaire emprunté: ");
 
             Emprunt emp = this.unEmprunt(ISBN, numExemplaire);
@@ -540,7 +540,7 @@ public class Bibliotheque implements Serializable
 		this._dicoLecteur = dicoLecteur;
 	}
         
-        private void setOuvrages(HashMap<Integer, Ouvrage> dicoOuvrage){
+        private void setOuvrages(HashMap<String, Ouvrage> dicoOuvrage){
                 this._dicoOuvrage = dicoOuvrage;
         }
         
@@ -567,7 +567,7 @@ public class Bibliotheque implements Serializable
         * La méthode unOuvrage permet de rechercher dans la base de données de la bibliothèque un objet
         * ouvrage identifié par son numéro ISBN, et de renvoyer l'objet (ou la valeur null s'il n'a pas été trouvé).
         */
-        private Ouvrage unOuvrage(Integer ISBN){
+        private Ouvrage unOuvrage(String ISBN){
             return _dicoOuvrage.get(ISBN);
         }
         
@@ -576,7 +576,7 @@ public class Bibliotheque implements Serializable
         * en parametres
         */
         
-        private Exemplaire unExemplaire(Integer ISBN, Integer numExemplaire){
+        private Exemplaire unExemplaire(String ISBN, Integer numExemplaire){
             Ouvrage O;
             O = this.unOuvrage(ISBN);
             return O.unExemplaire(numExemplaire);
@@ -586,7 +586,7 @@ public class Bibliotheque implements Serializable
         * La methode unEmprunt permet de rechercher l'existence d'un emprunt pour un lecteur donne
         */
         
-        private Emprunt unEmprunt(Integer ISBN, Integer numExemplaire){
+        private Emprunt unEmprunt(String ISBN, Integer numExemplaire){
             Exemplaire e;
             e=this.unExemplaire(ISBN, numExemplaire);
             return e.getEmprunt();
@@ -612,7 +612,7 @@ public class Bibliotheque implements Serializable
         /*
         * La méthode lierOuvrage permet d'ajouter un ouvrage à la base de données de bibliothèque.
         */
-	private void lierOuvrage(Integer ISBN, Ouvrage O){
+	private void lierOuvrage(String ISBN, Ouvrage O){
                 _dicoOuvrage.put(ISBN, O);
         }
 
@@ -620,7 +620,7 @@ public class Bibliotheque implements Serializable
         * La méthode delierOuvrage permet de supprimer un lecteur de la base de données de la bibliothèque.
         */
         
-        private void delierOuvrage(Integer ISBN){
+        private void delierOuvrage(String ISBN){
                 _dicoOuvrage.remove(ISBN);
         }
         
@@ -657,9 +657,9 @@ public class Bibliotheque implements Serializable
             ageLect = l.calculAge();
             publicOuvrage = o.getPublicCible();
 
-            return ((ageLect>=18) || 
-            (ageLect<18 && ageLect>=12 && (publicOuvrage.equals(PublicCible.ado) || publicOuvrage.equals(PublicCible.enfant))) ||
-            (ageLect<12 && publicOuvrage.equals(PublicCible.enfant)));        
+            return ((ageLect>=16) || 
+            (ageLect<16 && ageLect>=10 && (publicOuvrage.equals(PublicCible.ado) || publicOuvrage.equals(PublicCible.enfant))) ||
+            (ageLect<10 && publicOuvrage.equals(PublicCible.enfant)));        
            
         }
         

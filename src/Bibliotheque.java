@@ -21,7 +21,7 @@ public class Bibliotheque implements Serializable
                 private Integer _derNumLect;
 		
 		/*
-		 * Le dictionnaire de lecteur permet à bibliotheque de 
+		 * Le dictionnaire de lecteur permet à la bibliotheque de 
 		 * garantir l'unicité de ces derniers, et facilitent les recherches et créations.
 		 */
 	
@@ -29,12 +29,10 @@ public class Bibliotheque implements Serializable
 		//Constructeur
 	// -----------------------------------------------
 	
-
 		public Bibliotheque() {
 			this.setLecteurs(new HashMap<Integer, Lecteur>());
                         this.setOuvrages(new HashMap<String, Ouvrage>());
                         this.setDerNumLect(0);
-		
 		}
 	
 // -----------------------------------------------
@@ -46,7 +44,7 @@ public class Bibliotheque implements Serializable
 		// -----------------------------------------------
 	
 		/*
-		 * La méthode nouveauLecteur permet de créé un lecteur en demandant la saisie de son numéro
+		 * La méthode nouveauLecteur permet de créer un lecteur en demandant la saisie de son numéro
 		 * nom, prénom, date de naissance, adresse et numéro de téléphone.
 		 * L'age doit être compris entre 3 et 110 ans
 		 * Le lecteur est identifié par son numéro, si celui ci existe déjà dans le dictionnaire
@@ -56,7 +54,6 @@ public class Bibliotheque implements Serializable
 		 */
 	public void nouveauLecteur()
 	{
-		
                 this.nouveauNumLect();
                 Integer numLecteur = this.getDerNumLect();
 //                Integer numLecteur = EntreesSorties.lireEntier("Entrez le numero de lecteur :");

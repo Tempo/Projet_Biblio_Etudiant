@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-// Classe de gestion des Ouvrages
+// Classe de gestion d'ouvrage
 
 public class Ouvrage implements Serializable 
 {
@@ -15,7 +15,7 @@ public class Ouvrage implements Serializable
 		//Attributs
 	// -----------------------------------------------
 	
-                private Integer _ISBN;
+                private String _ISBN;
                 private String _titreOuvrage;
                 private HashSet<String> _nomsAuteurs;
                 private String _nomEditeur;
@@ -30,7 +30,7 @@ public class Ouvrage implements Serializable
 		//Constructeur
 	// -----------------------------------------------
 		
-		public Ouvrage(Integer ISBN, String titreOuvrage, HashSet<String> nomsAuteurs, String nomEditeur, PublicCible publicCible, GregorianCalendar dateParution)
+		public Ouvrage(String ISBN, String titreOuvrage, HashSet<String> nomsAuteurs, String nomEditeur, PublicCible publicCible, GregorianCalendar dateParution)
 		{
 			this.setISBN(ISBN);
 			this.setTitreOuvrage(titreOuvrage);
@@ -194,7 +194,7 @@ public class Ouvrage implements Serializable
                     return _derNumEx;
                 }
 	
-		private Integer getISBN() {
+		private String getISBN() {
 			return _ISBN;
 		}
 
@@ -218,7 +218,7 @@ public class Ouvrage implements Serializable
 			//Setters
 		// -----------------------------------------------
 
-		private void setISBN(Integer ISBN){
+		private void setISBN(String ISBN){
                     this._ISBN = ISBN;
                 }
                 

@@ -99,7 +99,7 @@ public class Bibliotheque implements Serializable
 	}
 	
         /*
-        * La methode supprimer lecteur permet de supprimer un lecteur de la base de donnees de la bibliothèque
+        * La methode supprimerLecteur permet de supprimer un lecteur de la base de donnees de la bibliothèque
         */
         
         public void supprimerLecteur(){
@@ -122,8 +122,7 @@ public class Bibliotheque implements Serializable
 		else 
                 {
 			EntreesSorties.afficherMessage("ERREUR : ce numero de lecteur n'existe pas.");
-		}
-            
+		}    
         }
                 	
 	/*
@@ -147,13 +146,14 @@ public class Bibliotheque implements Serializable
 	}
         
         /*
-        * La methode listerLecteur permet d'afficher la liste des numeros de lecteurs enregistres dans
-        * la base de donnees de la bibliotheque.
+        * La methode listerLecteur permet d'afficher la liste des numéros de lecteurs enregistrés dans
+        * la base de données de la bibliothèque.
         */
-        
-        public void listerLecteurs(){
-            System.out.println("Liste des numéros de lecteurs enregistrés: ");
-            for (int num : _dicoLecteur.keySet()){
+        public void listerLecteurs()
+        {
+            System.out.println("Liste des numéros de lecteurs enregistrés : ");
+            for (int num : _dicoLecteur.keySet())
+            {
                 System.out.println(num);
             }
         }
@@ -170,32 +170,29 @@ public class Bibliotheque implements Serializable
 	
 	public void nouvelOuvrage()
 	{
-		
                 boolean ok = false;
-                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'ouvrage: ");
+                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'ouvrage : ");
 		Ouvrage O = unOuvrage(ISBN);
 		
 		if (O == null) 
 		{
 			String titreOuvrage = EntreesSorties.lireChaine("Entrez le titre de l'ouvrage: ");
-			
-                        
                         HashSet<String> nomsAuteurs = new HashSet<String>();
                         String nomAuteur;
                         do{
-                             nomAuteur = EntreesSorties.lireChaine ("entrer un nom d'auteur ou taper fin pour arrêter la saisie : ");
+                             nomAuteur = EntreesSorties.lireChaine ("Entrez un nom d'auteur ou tapez fin pour arrêter la saisie : ");
                              if (!(nomAuteur.equals ("fin")))
                              nomsAuteurs.add(nomAuteur);
                         }while(!(nomAuteur.equals("fin")));                                    
                         
-                        String nomEditeur = EntreesSorties.lireChaine("Entrez le nom de l'éditeur: ");
+                        String nomEditeur = EntreesSorties.lireChaine("Entrez le nom de l'éditeur : ");
                         do{
                             try{
-                                    String sPublicCible = EntreesSorties.lireChaine("Public Cible (enfant/ado/adulte)?: ");                                    
+                                    String sPublicCible = EntreesSorties.lireChaine("Public Cible (enfant/ado/adulte)? : ");                                    
                                     PublicCible publicCible = PublicCible.valueOf(sPublicCible);
                                     ok = true;
                                     GregorianCalendar dateParution;
-                                    dateParution = EntreesSorties.lireDate("Entrez la date de Parution: ");
+                                    dateParution = EntreesSorties.lireDate("Entrez la date de parution : ");
                                     EntreesSorties.afficherMessage("Fin de saisie");
 			
                                     O = new Ouvrage(ISBN, titreOuvrage, nomsAuteurs, nomEditeur, publicCible, dateParution);
@@ -203,10 +200,10 @@ public class Bibliotheque implements Serializable
                                 }catch (Exception e){
                                 ok = false;
                                 System.out.println("ERREUR : le public cible saisi est invalide...");
-                            }
+                                }
                         }while(!ok);			
                         
-                        lierOuvrage(ISBN, O);                      
+                        lierOuvrage(ISBN, O);                   
 		}
 		else {
 			EntreesSorties.afficherMessage("ERREUR : ce numéro ISBN existe deja pour un ouvrage.");

@@ -253,7 +253,7 @@ public class Bibliotheque implements Serializable
 			O.afficherOuvrage();
 		}
 		else {
-			EntreesSorties.afficherMessage("ERREUR : aucun ouvrage n'est associe à ce numéro ISBN.");
+			EntreesSorties.afficherMessage("ERREUR : aucun ouvrage n'est associé à ce numéro ISBN.");
 		}
 	}
 
@@ -282,7 +282,7 @@ public class Bibliotheque implements Serializable
 	public void nouvelExemplaire()
 	{
 		
-                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'exemplaire : ");
+                String ISBN = EntreesSorties.lireChaine("Entrez le numéro ISBN de l'exemplaire : ");
 		Ouvrage o = unOuvrage(ISBN);
 		String nouvelExemplaire = "oui";
                 GregorianCalendar dateReception = null;
@@ -290,7 +290,7 @@ public class Bibliotheque implements Serializable
 		if (o != null) 
 		{
                  while(nouvelExemplaire.equals("oui")) {
-                        dateReception = EntreesSorties.lireDate("Entrez la date de reception de l'exemplaire : ");
+                        dateReception = EntreesSorties.lireDate("Entrez la date de réception de l'exemplaire : ");
                         if (!dateReception.before(o.getDateParution()))
                         {
                             String sDispo = EntreesSorties.lireChaine("Disponibilité de l'exemplaire (empruntable/consultable)?");                                                             
@@ -301,7 +301,7 @@ public class Bibliotheque implements Serializable
                             }
                             else
                             {
-                                System.out.println("ERREUR : la disponibilite saisie est invalide...");                                
+                                System.out.println("ERREUR : la disponibilité saisie est invalide...");                                
                             }
                         }
                         else
@@ -327,7 +327,7 @@ public class Bibliotheque implements Serializable
         
         public void supprimerExemplaire(){
 
-                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'exemplaire à supprimer : ");
+                String ISBN = EntreesSorties.lireChaine("Entrez le numéro ISBN de l'exemplaire à supprimer : ");
 		Ouvrage O = unOuvrage(ISBN);
 		
 		if (O != null) 
@@ -339,13 +339,13 @@ public class Bibliotheque implements Serializable
 	/*
 	 * La méthode consulterExemplairesOuvrage permet d'afficher l'ensemble des informations relatives aux
 	 * exemplaires d'un ouvrage, par la saisie de leur ISBN.
-	 * Si le numéro ISBN n'est pas dans la base de données de bibliotheque un message d'erreur est
+	 * Si le numéro ISBN n'est pas dans la base de données de bibliothèque un message d'erreur est
 	 * renvoyé a l'utilisateur.
 	 */        
 
         public void consulterExemplairesOuvrage()
 	{
-                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN : ");
+                String ISBN = EntreesSorties.lireChaine("Entrez le numéro ISBN : ");
 		Ouvrage O = unOuvrage(ISBN);
 		
 		if (O!=null){
@@ -353,18 +353,18 @@ public class Bibliotheque implements Serializable
                         O.afficherExemplaires();
                 }
 		else {
-			EntreesSorties.afficherMessage("ERREUR : aucun ouvrage n'est associe a ce numero ISBN.");
+			EntreesSorties.afficherMessage("ERREUR : aucun ouvrage n'est associé à ce numéro ISBN.");
 		}
 	}
         
         /*
-        * La méthode emprunterExemplaire permet au lecteur saisi d'emprunter l'exemplaire selectionne
+        * La méthode emprunterExemplaire permet au lecteur saisi d'emprunter l'exemplaire sélectionné.
         */
 	
 	public void emprunterExemplaire()
 	{
 		
-            Integer numLect = EntreesSorties.lireEntier("Entrez le numero du lecteur concerné: ");
+            Integer numLect = EntreesSorties.lireEntier("Entrez le numéro du lecteur concerné : ");
             Lecteur l = unLecteur(numLect);      
             String nouvelEmprunt = "oui";
             GregorianCalendar dateEmprunt = new GregorianCalendar();
@@ -378,12 +378,12 @@ public class Bibliotheque implements Serializable
                 {
                     while(nouvelEmprunt.equals("oui"))
                     {
-                        ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'exemplaire: ");                        
+                        ISBN = EntreesSorties.lireChaine("Entrez le numéro ISBN de l'exemplaire: ");                        
                     
                         Ouvrage o = this.unOuvrage(ISBN);
                         if(o != null)
                         {
-                            numExemplaire = EntreesSorties.lireEntier("Entrez le numero de l'exemplaire: ");
+                            numExemplaire = EntreesSorties.lireEntier("Entrez le numéro de l'exemplaire: ");
                             Exemplaire ex = this.unExemplaire(ISBN, numExemplaire);
                             
                             if(ex != null)
@@ -394,7 +394,7 @@ public class Bibliotheque implements Serializable
                                     {
                                         if(this.publicOk(o,l))
                                         {    
-                                            dateEmprunt = EntreesSorties.lireDate("Entrez la date d'emprunt de l'exemplaire: ");                                        
+                                            dateEmprunt = EntreesSorties.lireDate("Entrez la date d'emprunt de l'exemplaire : ");                                        
                                             dateReception = ex.getDateReception();
                                             if(!dateEmprunt.before(dateReception))
                                             {
@@ -418,17 +418,17 @@ public class Bibliotheque implements Serializable
                                 }
                                 else
                                 {
-                                    EntreesSorties.afficherMessage("ERREUR : l'exemplaire est deja emprunte...");                                    
+                                    EntreesSorties.afficherMessage("ERREUR : l'exemplaire est deja emprunté...");                                    
                                 }
                             }
                             else
                             {
-                                EntreesSorties.afficherMessage("Ces donnees ne correspondent a aucun exemplaire...");                                
+                                EntreesSorties.afficherMessage("Ces données ne correspondent à aucun exemplaire...");                                
                             }
                         }
                         else
                         {
-                                    EntreesSorties.afficherMessage("ERREUR : cet ISBN ne correspond à aucun ouvrage...");                                                                
+                            EntreesSorties.afficherMessage("ERREUR : cet ISBN ne correspond à aucun ouvrage...");                                                                
                         }                        
                         nouvelEmprunt = EntreesSorties.lireChaine("Voulez-vous enregistrer un nouvel emprunt (oui/non)?");
                     
@@ -440,7 +440,7 @@ public class Bibliotheque implements Serializable
                 }
                 else
                 {
-                    EntreesSorties.afficherMessage("ERREUR : ce lecteur a deja emprunte plus de 5 exemplaires...");                    
+                    EntreesSorties.afficherMessage("ERREUR : ce lecteur a déjà emprunté plus de 5 exemplaires...");                    
                 }
             }
             else 
@@ -453,8 +453,8 @@ public class Bibliotheque implements Serializable
         * La méthode rendreExemplaire permet au lecteur saisi de rendre un exemplaire emprunté
         */        
          public void rendreExemplaire(){
-            String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'ouvrage emprunté: ");                        
-            Integer numExemplaire = EntreesSorties.lireEntier("Entrez le numero de l'exemplaire emprunté: ");
+            String ISBN = EntreesSorties.lireChaine("Entrez le numéro ISBN de l'ouvrage emprunté : ");                        
+            Integer numExemplaire = EntreesSorties.lireEntier("Entrez le numéro de l'exemplaire emprunté : ");
 
             Emprunt emp = this.unEmprunt(ISBN, numExemplaire);
             
@@ -472,12 +472,12 @@ public class Bibliotheque implements Serializable
 
 
          /*
-         * La methode consulterEmpruntsLecteur permet d'afficher les emprunt d'un lecteur donné
+         * La méthode consulterEmpruntsLecteur permet d'afficher les emprunts d'un lecteur donné
          */
          
         public void consulterEmpruntsLecteur()
 	{
-            Integer numLecteur = EntreesSorties.lireEntier("Entrez le numero du lecteur : ");
+            Integer numLecteur = EntreesSorties.lireEntier("Entrez le numéro du lecteur : ");
             Lecteur l = unLecteur(numLecteur);		
 		if (l!=null)
                 {
@@ -487,12 +487,12 @@ public class Bibliotheque implements Serializable
 		}
 		else 
                 {
-			EntreesSorties.afficherMessage("ERREUR : aucun lecteur n'est associe a ce numero.");
+			EntreesSorties.afficherMessage("ERREUR : aucun lecteur n'est associé à ce numéro.");
 		}
 	}
         
         /*
-        * La methode relancer lecteur permet d'afficher les informations concernant les emprunts
+        * La méthode relancerlecteur permet d'afficher les informations concernant les emprunts
         * en retard au sein de la bibliothèque
         */
         
@@ -556,8 +556,7 @@ public class Bibliotheque implements Serializable
 	 * La méthode unLecteur permet de rechercher dans la base de données de la bibliotheque un objet 
 	 * lecteur identifié par son numéro, et de renvoyer l'objet (ou la donnée null s'il n'a pas été trouvé).
 	 */
-	private Lecteur unLecteur(Integer numLecteur)
-	{
+	private Lecteur unLecteur(Integer numLecteur){
 		return _dicoLecteur.get(numLecteur);
 	}
 	
@@ -581,28 +580,25 @@ public class Bibliotheque implements Serializable
         }
         
         /*
-        * La methode unEmprunt permet de rechercher l'existence d'un emprunt pour un lecteur donne
+        * La méthode unEmprunt permet de rechercher l'existence d'un emprunt pour un lecteur donné
         */
-        
         private Emprunt unEmprunt(String ISBN, Integer numExemplaire){
             Exemplaire e;
-            e=this.unExemplaire(ISBN, numExemplaire);
+            e = this.unExemplaire(ISBN, numExemplaire);
             return e.getEmprunt();
         }
         
         
 	/*
-	 * La méthode lierLecteur permet d'ajouter un lecteur a la base de données de bibliotheque.
-	 */
-	private void lierLecteur(Integer numLecteur, Lecteur L)
-	{
+	 * La méthode lierLecteur permet d'ajouter un lecteur à la base de données de bibliothèque.
+	*/
+	private void lierLecteur(Integer numLecteur, Lecteur L){
 		_dicoLecteur.put(numLecteur, L);
 	}
         
         /*
         * La méthode delierLecteur permet de supprimer un lecteur de la base de données de la bibliothèque.
         */
-        
         private void delierLecteur(Integer numLecteur){
                 _dicoLecteur.remove(numLecteur);
         }
@@ -626,7 +622,8 @@ public class Bibliotheque implements Serializable
 	 * La méthode lesLecteurs permet de créer un iterator sur les lecteurs, dans le but de les parcourir
 	 * pour eventuellement les relancer.
 	 */
-	private Iterator<Lecteur> lesLecteurs() {
+	private Iterator<Lecteur> lesLecteurs()
+        {
 		return _dicoLecteur.values().iterator();
 	}
         

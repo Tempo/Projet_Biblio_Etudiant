@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 // Classe de gestion d'ouvrage
+// Salut Emma!
 
 public class Ouvrage implements Serializable 
 {

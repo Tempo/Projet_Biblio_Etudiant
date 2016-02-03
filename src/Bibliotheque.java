@@ -62,8 +62,8 @@ public class Bibliotheque implements Serializable
 		
 		if (L == null) 
 		{
-			String nom = EntreesSorties.lireChaine("Entrez le nom :");
-			String prenom = EntreesSorties.lireChaine("Entrez le prenom :");
+			String nom = EntreesSorties.lireChaine("Entrez le nom : ");
+			String prenom = EntreesSorties.lireChaine("Entrez le prenom : ");
 			Integer age;
 			GregorianCalendar dateNaiss, dateNaissComp;
 			GregorianCalendar dateActuelle = new GregorianCalendar();
@@ -93,7 +93,7 @@ public class Bibliotheque implements Serializable
 			lierLecteur(numLecteur, L);
 		}
 		else {
-			EntreesSorties.afficherMessage("ERREUR : ce numero de lecteur existe deja.");
+			EntreesSorties.afficherMessage("ERREUR : ce numero de lecteur existe déjà.");
 		}
 		
 	}
@@ -104,7 +104,7 @@ public class Bibliotheque implements Serializable
         
         public void supprimerLecteur(){
 
-                Integer numLecteur = EntreesSorties.lireEntier("Entrez le numero du lecteur à supprimer:");
+                Integer numLecteur = EntreesSorties.lireEntier("Entrez le numéro du lecteur à supprimer:");
 		Lecteur l = unLecteur(numLecteur);
 		
 		if (l != null)
@@ -112,7 +112,7 @@ public class Bibliotheque implements Serializable
                     if(l.etatSansEmprunt())
                      {                      
 			this.delierLecteur(numLecteur);
-                        System.out.println("Le lecteur a été supprimé avec succès!");
+                        System.out.println("Le lecteur a été supprimé avec succès !");
                      }
                     else
                     {
@@ -133,7 +133,7 @@ public class Bibliotheque implements Serializable
 	 */
 	public void consulterLecteur()
 	{
-                Integer numLecteur = EntreesSorties.lireEntier("Entrez le numero du lecteur : ");
+                Integer numLecteur = EntreesSorties.lireEntier("Entrez le numéro du lecteur : ");
 		
 		Lecteur L = unLecteur(numLecteur);
 		
@@ -141,7 +141,7 @@ public class Bibliotheque implements Serializable
 			L.afficherLecteur();
 		}
 		else {
-			EntreesSorties.afficherMessage("ERREUR : aucun lecteur n'est associe a ce numero.");
+			EntreesSorties.afficherMessage("ERREUR : aucun lecteur n'est associé à ce numéro.");
 		}
 	}
         
@@ -171,12 +171,12 @@ public class Bibliotheque implements Serializable
 	public void nouvelOuvrage()
 	{
                 boolean ok = false;
-                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'ouvrage : ");
+                String ISBN = EntreesSorties.lireChaine("Entrez le numéro ISBN de l'ouvrage : ");
 		Ouvrage O = unOuvrage(ISBN);
 		
 		if (O == null) 
 		{
-			String titreOuvrage = EntreesSorties.lireChaine("Entrez le titre de l'ouvrage: ");
+			String titreOuvrage = EntreesSorties.lireChaine("Entrez le titre de l'ouvrage : ");
                         HashSet<String> nomsAuteurs = new HashSet<String>();
                         String nomAuteur;
                         do{
@@ -206,7 +206,7 @@ public class Bibliotheque implements Serializable
                         lierOuvrage(ISBN, O);                   
 		}
 		else {
-			EntreesSorties.afficherMessage("ERREUR : ce numéro ISBN existe deja pour un ouvrage.");
+			EntreesSorties.afficherMessage("ERREUR : ce numéro ISBN existe déjà pour un ouvrage.");
 		}
 		
 	}
@@ -217,7 +217,7 @@ public class Bibliotheque implements Serializable
         
         public void supprimerOuvrage(){
 
-                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'ouvrage à supprimer:");
+                String ISBN = EntreesSorties.lireChaine("Entrez le numéro ISBN de l'ouvrage à supprimer : ");
 		Ouvrage O = unOuvrage(ISBN);
 		
 		if (O != null) 
@@ -225,14 +225,14 @@ public class Bibliotheque implements Serializable
                     if(O.etatSansExemplaire())
                     {                       
 			this.delierOuvrage(ISBN);
-                        System.out.println("L'ouvrage a été supprimé avec succès!");
+                        System.out.println("L'ouvrage a été supprimé avec succès !");
                     }
                     else{
                         EntreesSorties.afficherMessage("ERREUR : pour supprimer l'ouvrage, supprimer au préalable ses exemplaires");
                     }
 		}
 		else {
-			EntreesSorties.afficherMessage("ERREUR : ce numero d'ouvrage n'existe pas.");
+			EntreesSorties.afficherMessage("ERREUR : ce numéro d'ouvrage n'existe pas.");
 		}
             
         }
@@ -240,7 +240,7 @@ public class Bibliotheque implements Serializable
 	/*
 	 * La méthode consulterOuvrage permet d'afficher l'ensemble des informations relatives à
 	 * un ouvrage, par la saisie de son ISBN.
-	 * Si le numéro ISBN n'est pas dans la base de données de bibliotheque un message d'erreur est
+	 * Si le numéro ISBN n'est pas dans la base de données de bibliothèque un message d'erreur est
 	 * renvoyé a l'utilisateur.
 	 */        
 	public void consulterOuvrage()
@@ -253,17 +253,17 @@ public class Bibliotheque implements Serializable
 			O.afficherOuvrage();
 		}
 		else {
-			EntreesSorties.afficherMessage("ERREUR : aucun ouvrage n'est associe a ce numero ISBN.");
+			EntreesSorties.afficherMessage("ERREUR : aucun ouvrage n'est associe à ce numéro ISBN.");
 		}
 	}
 
         /*
-        * La methode listerOuvrages permet d'afficher la liste des numéros ISBN de tous les ouvrages
+        * La méthode listerOuvrages permet d'afficher la liste des numéros ISBN de tous les ouvrages
         * qui sont dans la base de données de la bibliothèque.
         */
         
         public void listerOuvrages(){
-            System.out.println("Liste des numéros ISBN des ouvrages enregistrés: ");
+            System.out.println("Liste des numéros ISBN des ouvrages enregistrés : ");
             for (String ISBN : _dicoOuvrage.keySet()){
                 System.out.println(ISBN);
             }               
@@ -282,7 +282,7 @@ public class Bibliotheque implements Serializable
 	public void nouvelExemplaire()
 	{
 		
-                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'exemplaire: ");
+                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'exemplaire : ");
 		Ouvrage o = unOuvrage(ISBN);
 		String nouvelExemplaire = "oui";
                 GregorianCalendar dateReception = null;
@@ -290,7 +290,7 @@ public class Bibliotheque implements Serializable
 		if (o != null) 
 		{
                  while(nouvelExemplaire.equals("oui")) {
-                        dateReception = EntreesSorties.lireDate("Entrez la date de Reception de l'exemplaire: ");
+                        dateReception = EntreesSorties.lireDate("Entrez la date de reception de l'exemplaire : ");
                         if (!dateReception.before(o.getDateParution()))
                         {
                             String sDispo = EntreesSorties.lireChaine("Disponibilité de l'exemplaire (empruntable/consultable)?");                                                             
@@ -321,9 +321,13 @@ public class Bibliotheque implements Serializable
 		
 	}
   
+        /* 
+        * La méthode supprimerExemplaire permet de supprimer un exemplaire par son ISBN
+        */
+        
         public void supprimerExemplaire(){
 
-                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'exemplaire à supprimer :");
+                String ISBN = EntreesSorties.lireChaine("Entrez le numero ISBN de l'exemplaire à supprimer : ");
 		Ouvrage O = unOuvrage(ISBN);
 		
 		if (O != null) 

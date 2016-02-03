@@ -56,7 +56,7 @@ public class Exemplaire implements Serializable
 		public void afficherExemplaire()                 
 		{
                         Emprunt e;
-                        System.out.println("Numéro d'exemplaire: " + this.getNumExemplaire());
+                        System.out.println("Numéro d'exemplaire : " + this.getNumExemplaire());
 			System.out.println("Date de réception : " + EntreesSorties.ecrireDate(this.getDateReception()));
 			System.out.println("Public cible : " + this.getOuvrage().getPublicCible());                        
                         System.out.println("Cet exemplaire est " + this.getDisponibilite());
@@ -78,8 +78,7 @@ public class Exemplaire implements Serializable
                 * La méthode afficherEmpruntExemplaire permet d'afficher le titre de l'ouvrage
                 * de l'exemplaire considéré ainsi que son numéro ISBN
                 */
-                public void afficherEmpruntExemplaire()
-                {                        
+                public void afficherEmpruntExemplaire(){                        
                         this.getOuvrage().afficherISBNTitre();
                         this.afficherNumExemplaire();
                 }
@@ -88,8 +87,7 @@ public class Exemplaire implements Serializable
                 * La methode afficherNumExemplaire permet d'afficher le numero de l'exemplaire considéré
                 */
                 
-                public void afficherNumExemplaire()
-                {
+                public void afficherNumExemplaire(){
                         System.out.println("Numéro d'exemplaire: " + this.getNumExemplaire());                    
                 }
               
@@ -108,10 +106,8 @@ public class Exemplaire implements Serializable
                         return this.getDisponibilite().equals(Disponibilite.empruntable);
                 }
                 
-                
-                
                 /*
-                * La methode ajouterEmprunt permet d'ajouter un emprunt a l'emplaire courant
+                * La méthode ajouterEmprunt permet d'ajouter un emprunt à l'exemplaire courant
                 */
                 
                 public void ajouterEmprunt(Emprunt emprunt){
@@ -119,7 +115,7 @@ public class Exemplaire implements Serializable
                 }
                 
                 /*
-                * La methode rendreEmprunt permet de supprimer l'emprunt en cours de la bibliotheque             
+                * La méthode rendreEmprunt permet de supprimer l'emprunt en cours de la bibliothèque             
                 */                
                 public void rendreEmprunt(){
                         this.delierEmprunt();

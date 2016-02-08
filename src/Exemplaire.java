@@ -1,9 +1,13 @@
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 
-// Classe de gestion d'exemplaire
+// Classe de gestion de Lecteur
 
-public class Exemplaire implements Serializable 
+public class Emprunt implements Serializable 
 {
 	
 	private static final long serialVersionUID = 422L;
@@ -12,115 +16,87 @@ public class Exemplaire implements Serializable
 		//Attributs
 	// -----------------------------------------------
 	
-                private Integer _numExemplaire;
-		private GregorianCalendar _dateReception;
-		private Disponibilite _dispo;
-                private Ouvrage _ouvrage;
-                private Emprunt _emprunt;
-                
+
+                private GregorianCalendar _dateEmprunt;
+                private GregorianCalendar _dateRetour;
+                private Exemplaire _exemplaire;
+                private Lecteur _lecteur;
+        
 	// -----------------------------------------------
 		//Constructeur
 	// -----------------------------------------------
 		
-		public Exemplaire(Integer numExemplaire, GregorianCalendar dateReception, Disponibilite dispo, Ouvrage ouvrage)
+		public Emprunt(Exemplaire exemplaire, Lecteur lecteur, GregorianCalendar dateEmprunt)
 		{
-			this.setNumExemplaire(numExemplaire);
-			this.setDateReception(dateReception);
-			this.setDisponibilite(dispo);
-                        this.lierOuvrage(ouvrage);
-                        this.setEmprunt(null);
-		}
+			this.lierExemplaire(exemplaire);
+                        this.lierLecteur(lecteur);
+                        lecteur.ajouterEmprunt(this);
+                        exemplaire.ajouterEmprunt(this);                        
+                        this.setDateEmprunt(dateEmprunt);
+                        
+		try {
+			GregorianCalendar dateRetour = new GregorianCalendar();
+                        dateRetour.set(dateEmprunt.get(Calendar.YEAR), dateEmprunt.get(Calendar.MONTH), dateEmprunt.get(Calendar.DAY_OF_MONTH));
+                        dateRetour.add(Calendar.DAY_OF_MONTH,8);               
+                        this.setDateRetour(dateRetour);
+
+		} catch (Exception e) {
+			System.out.println("La date de retour n'a pas initialisée correctement");// TODO Auto-generated catch block
+		}                                                
+       		}
 		
 // -----------------------------------------------
 	// Public
 // -----------------------------------------------
 
-                //----------------------------------------------
-                        // Getters
-                //----------------------------------------------
-
-                public Emprunt getEmprunt(){
-                        return _emprunt;
-                }
-		public GregorianCalendar getDateReception(){
-			return _dateReception;
-		}                
-
-		// -----------------------------------------------
+                // -----------------------------------------------
 			// Methodes
 		// -----------------------------------------------
 		
 		/*
-		 * La méthode afficherExemplaire affiche l'ensemble des informations relatives à un exemplaire.
+		 * La methode afficherOuvrage affiche l'ensemble des informations relatives a un lecteur.
 		 */
-		public void afficherExemplaire()                 
+		public void afficherEmprunt()
 		{
-                        Emprunt e;
-                        System.out.println("Numéro d'exemplaire : " + this.getNumExemplaire());
-			System.out.println("Date de réception : " + EntreesSorties.ecrireDate(this.getDateReception()));
-			System.out.println("Public cible : " + this.getOuvrage().getPublicCible());                        
-                        System.out.println("Cet exemplaire est " + this.getDisponibilite());
-                        if (this.etatNonEmprunte())
-                        {
-                            System.out.println("Exemplaire actuellement non emprunté");
-                        }
-                        else
-                        {
-                            e = this.getEmprunt();
-                            System.out.println("Exemplaire actuellement emprunté");
-                            e.afficherLecteurEmprunt();
-                            e.afficherDatesEmprunt();
-                        }
-			EntreesSorties.afficherMessage("");
+                    this.getExemplaire().afficherEmpruntExemplaire();
+                    System.out.println("Date d'emprunt: " + EntreesSorties.ecrireDate(this.getDateEmprunt()));
+                    System.out.println("Date de retour: " + EntreesSorties.ecrireDate(this.getDateRetour()));
+                    EntreesSorties.afficherMessage("");                    
 		}
                 
-                /*
-                * La méthode afficherEmpruntExemplaire permet d'afficher le titre de l'ouvrage
-                * de l'exemplaire considéré ainsi que son numéro ISBN
-                */
-                public void afficherEmpruntExemplaire(){                        
-                        this.getOuvrage().afficherISBNTitre();
-                        this.afficherNumExemplaire();
+                public void afficherLecteurEmprunt()
+                {
+                    Lecteur l;
+                    l = this.getLecteur();
+                    l.afficherNumNomPrenom();
                 }
                 
-                /*
-                * La methode afficherNumExemplaire permet d'afficher le numero de l'exemplaire considéré
-                */
-                
-                public void afficherNumExemplaire(){
-                        System.out.println("Numéro d'exemplaire: " + this.getNumExemplaire());                    
-                }
-              
-                /*
-                * La methode etatNonEmprunte permet de savoir si l'exemplaire est actuellement emprunte ou non
-                */
-	
-                public boolean etatNonEmprunte(){
-                        return this.getEmprunt()==null;
-                }
-
-                /*
-                * La methode empruntable permet de savoir si un exemplaire est empruntable
-                */
-                public boolean empruntable(){
-                        return this.getDisponibilite().equals(Disponibilite.empruntable);
-                }
+                public void afficherDatesEmprunt()
+                {
+                    System.out.println("Date d'emprunt: " + EntreesSorties.ecrireDate(this.getDateEmprunt()));
+                    System.out.println("Date de retour: " + EntreesSorties.ecrireDate(this.getDateRetour()));                    
+                }        
                 
                 /*
-                * La méthode ajouterEmprunt permet d'ajouter un emprunt à l'exemplaire courant
-                */
-                
-                public void ajouterEmprunt(Emprunt emprunt){
-                        this.lierEmprunt(emprunt);
-                }
-                
-                /*
-                * La méthode rendreEmprunt permet de supprimer l'emprunt en cours de la bibliothèque             
+                * La methode rendreEmprunt permet de supprimer l'emprunt en cours de la bibliotheque             
                 */                
                 public void rendreEmprunt(){
-                        this.delierEmprunt();
-                }                
+                    this.getExemplaire().rendreEmprunt();
+                    this.getLecteur().supprimerEmprunt(this);
+                }
                 
+                /*
+                * La méthode etatRetard permet de connaitre l'etat de l'emprunt par rapport au critere de retard
+                */        
+                public boolean retard(){
+                    GregorianCalendar dateRetard = new GregorianCalendar();
+                    GregorianCalendar aujourdhui = new GregorianCalendar();
+                    dateRetard.set(this.getDateEmprunt().get(Calendar.YEAR), this.getDateEmprunt().get(Calendar.MONTH), this.getDateEmprunt().get(Calendar.DAY_OF_MONTH));
+                    dateRetard.add(Calendar.DAY_OF_MONTH,15);
+                    return aujourdhui.after(dateRetard);
+                }
+                
+	
 // -----------------------------------------------
 	// Private
 // -----------------------------------------------
@@ -128,58 +104,65 @@ public class Exemplaire implements Serializable
 		// -----------------------------------------------
 			//Getters
 		// -----------------------------------------------
-
-		private Integer getNumExemplaire(){
-			return _numExemplaire;
-		}
-		
-		private Disponibilite getDisponibilite(){
-			return _dispo;
-		}
                 
-                private Ouvrage getOuvrage(){
-                        return _ouvrage;
+                private Lecteur getLecteur(){
+                    return this._lecteur;
                 }
                 
+                private Exemplaire getExemplaire(){
+                    return this._exemplaire;
+                }
+                
+		private GregorianCalendar getDateEmprunt() {
+			return this._dateEmprunt;
+		}
+
+		private GregorianCalendar getDateRetour() {
+			return this._dateRetour;
+		}
+                                               
 		// -----------------------------------------------
 			//Setters
 		// -----------------------------------------------
 
-		private void setNumExemplaire(Integer numExemplaire){
-			this._numExemplaire = numExemplaire;
-		}
-
-		private void setDateReception(GregorianCalendar dateReception){
-			this._dateReception = dateReception;
-		}
-
-		private void setDisponibilite(Disponibilite dispo){
-			this._dispo = dispo;
-		}
-                
-                private void setOuvrage(Ouvrage ouvrage){
-                    this._ouvrage = ouvrage;
+                    
+                private void setExemplaire(Exemplaire exemplaire){
+                    this._exemplaire = exemplaire;
                 }
                 
-                private void setEmprunt(Emprunt emprunt){
-                    this._emprunt = emprunt;
+                private void setLecteur(Lecteur lecteur){
+                    this._lecteur = lecteur;
+                }
+                    
+                private void setDateEmprunt(GregorianCalendar dateEmprunt){
+                    this._dateEmprunt = dateEmprunt;
+                }
+                
+                private void setDateRetour(GregorianCalendar dateRetour){
+                    this._dateRetour = dateRetour;
                 }
 
-                //--------------------------------------------------
+                                
+                //-------------------------------------------
                         // Methodes
-                //--------------------------------------------------
-                
-                private void lierOuvrage(Ouvrage ouvrage){
-                    this.setOuvrage(ouvrage);
+                //-------------------------------------------
+                                
+                /*
+                * La méthode lierExemplaire permet d'ajouter un exemplaire a l'emprunt courant.
+                */
+                private void lierExemplaire(Exemplaire E)
+                {
+                    this.setExemplaire(E);
                 }
                 
-                private void lierEmprunt(Emprunt emprunt){
-                    this.setEmprunt(emprunt);
+                /*
+                * La méthode lierLecteur permet d'ajouter un lecteur a l'emprunt courant.
+                */
+                private void lierLecteur(Lecteur L)
+                {
+                    this.setLecteur(L);
                 }
+
                 
-                private void delierEmprunt(){
-                    this.setEmprunt(null);
-                }
 }
-		
-		
+                

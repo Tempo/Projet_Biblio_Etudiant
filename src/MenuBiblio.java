@@ -19,7 +19,10 @@ public void menuPrincipal() {
 		EntreesSorties.afficherMessage("| Menu Lecteur : 1                                       |");
 		EntreesSorties.afficherMessage("| Menu Ouvrage : 2                                       |");
                 EntreesSorties.afficherMessage("| Menu Exemplaire: 3                                     |");
-                EntreesSorties.afficherMessage("| Menu Emprunt: 4                                        |");
+                EntreesSorties.afficherMessage("| Menu Périodique: 4                                     |");                
+                EntreesSorties.afficherMessage("| Menu Article: 5                                        |");
+                EntreesSorties.afficherMessage("| Menu Emprunt: 6                                        |");
+                EntreesSorties.afficherMessage("| Menu Recherche: 7                                      |");                
                 EntreesSorties.afficherMessage("| Quitter : 0                                            |");
 		EntreesSorties.afficherMessage(" ========================================================");
 		menu = EntreesSorties.lireEntier();
@@ -39,12 +42,23 @@ public void menuPrincipal() {
                                         this.menuExemplaire();
                                         break;
                                 }
-                                
+
                                 case 4 : {
+                                        this.menuPeriodique();
+                                        break;
+                                }
+                                case 5 : {
+                                        this.menuArticle();
+                                        break;
+                                }                                
+                                case 6 : {
                                         this.menuEmprunt();
                                         break;
                                 }
-				
+                                case 7 : {
+                                        this.menuRecherche();
+                                        break;
+                                }				
 				default : {
 					break;
 				}
@@ -63,9 +77,8 @@ public void menuLecteur() {
 		EntreesSorties.afficherMessage(" ========================================================");
 		EntreesSorties.afficherMessage("| Saisissez un numero correspondant :                    |");
 		EntreesSorties.afficherMessage("| Nouveau Lecteur : 1                                    |");
-                EntreesSorties.afficherMessage("| Supprimer Lecteur: 2                                   |");
-		EntreesSorties.afficherMessage("| Consulter Lecteur : 3                                  |");
-                EntreesSorties.afficherMessage("| Liste numeros de lecteurs : 4                          |");
+		EntreesSorties.afficherMessage("| Consulter Lecteur : 2                                  |");
+                EntreesSorties.afficherMessage("| Liste numeros de lecteurs : 3                          |");
 		EntreesSorties.afficherMessage("| Retour Menu Principal : 0                              |");
 		EntreesSorties.afficherMessage(" ========================================================");
 		menuLect = EntreesSorties.lireEntier();
@@ -75,15 +88,11 @@ public void menuLecteur() {
 					_bibliotheque.nouveauLecteur();
 					break;
 				}
-                                case 2 : {
-                                        _bibliotheque.supprimerLecteur();
-                                        break;
-                                }
-				case 3 : {
+				case 2 : {
 					_bibliotheque.consulterLecteur();
 					break;
 				}
-                                case 4 : {
+                                case 3 : {
                                         _bibliotheque.listerLecteurs();
                                         break;
                                 }
@@ -106,10 +115,9 @@ public void menuOuvrage() {
 		EntreesSorties.afficherMessage(" ========================================================");
 		EntreesSorties.afficherMessage("| Saisissez un numero correspondant :                    |");
 		EntreesSorties.afficherMessage("| Nouvel ouvrage : 1                                     |");
-                EntreesSorties.afficherMessage("| Supprimer ouvrage : 2                                  |");
-                EntreesSorties.afficherMessage("| Liste des numéros ISBN : 3                             |");
-		EntreesSorties.afficherMessage("| Consulter ouvrage : 4                                  |");
-		EntreesSorties.afficherMessage("| Retour Menu Principal : 0                              |");
+                EntreesSorties.afficherMessage("| Liste des numéros ISBN : 2                             |");
+		EntreesSorties.afficherMessage("| Consulter ouvrage : 3                                  |");
+                EntreesSorties.afficherMessage("| Retour Menu Principal : 0                              |");
 		EntreesSorties.afficherMessage(" ========================================================");
 		menuOuvrage = EntreesSorties.lireEntier();
 			
@@ -118,10 +126,6 @@ public void menuOuvrage() {
 					_bibliotheque.nouvelOuvrage();
 					break;
 				}
-                                case 2 : {
-                                        _bibliotheque.supprimerOuvrage();
-                                        break;
-                                }
                                 case 3 : {
                                         _bibliotheque.listerOuvrages();
                                         break;
@@ -150,8 +154,7 @@ public void menuExemplaire() {
 		EntreesSorties.afficherMessage(" ========================================================");
 		EntreesSorties.afficherMessage("| Saisissez un numero correspondant :                    |");
 		EntreesSorties.afficherMessage("| Nouvel exemplaire : 1                                  |");
-                EntreesSorties.afficherMessage("| Supprimer exemplaire : 2                               |");
-		EntreesSorties.afficherMessage("| Consulter exemplaires ouvrage : 3                      |");
+		EntreesSorties.afficherMessage("| Consulter exemplaires ouvrage : 2                      |");
 		EntreesSorties.afficherMessage("| Retour Menu Principal : 0                              |");
 		EntreesSorties.afficherMessage(" ========================================================");
 		menuLect = EntreesSorties.lireEntier();
@@ -161,11 +164,7 @@ public void menuExemplaire() {
 					_bibliotheque.nouvelExemplaire();
 					break;
 				}
-                                case 2 : {
-                                        _bibliotheque.supprimerExemplaire();
-                                        break;
-                                }
-				case 3 : {
+				case 2 : {
 					_bibliotheque.consulterExemplairesOuvrage();
 					break;
 				}
@@ -210,6 +209,111 @@ public void menuEmprunt() {
 				}                               
 			}
 	} while (menuEmprunt != 0);	
+}
+
+public void menuPeriodique() {
+	Integer menuPeriodique;
+	do {
+		EntreesSorties.afficherMessage(" ========================================================");
+		EntreesSorties.afficherMessage("| Saisissez un numero correspondant :                    |");
+		EntreesSorties.afficherMessage("| Nouvelle Parution : 1                                  |");
+		EntreesSorties.afficherMessage("| Liste des codes de parution : 2                        |");
+		EntreesSorties.afficherMessage("| Consulter parution : 3                                 |");
+                EntreesSorties.afficherMessage("| Retour Menu Principal : 0                              |");
+		EntreesSorties.afficherMessage(" ========================================================");
+		menuPeriodique = EntreesSorties.lireEntier();
+			
+			switch (menuPeriodique){
+				case 1 : {
+					_bibliotheque.nouvelleParution();
+					break;
+				}
+				case 2 : {
+					_bibliotheque.listerParutions();
+					break;
+				}                                
+				case 3 : {
+					_bibliotheque.consulterParution();
+					break;
+				}                                
+				default : {
+					break;
+				}                               
+			}
+	} while (menuPeriodique != 0);	
+}
+public void menuArticle() {
+	Integer menuArt;
+	do {
+		EntreesSorties.afficherMessage(" ========================================================");
+		EntreesSorties.afficherMessage("| Saisissez un numero correspondant :                    |");
+		EntreesSorties.afficherMessage("| Nouvel article : 1                                     |");
+		EntreesSorties.afficherMessage("| Consulter articles parution : 2                        |");
+                EntreesSorties.afficherMessage("| Retour Menu Principal : 0                              |");
+		EntreesSorties.afficherMessage(" ========================================================");
+		menuArt = EntreesSorties.lireEntier();
+			
+			switch (menuArt){
+				case 1 : {
+					_bibliotheque.nouvelArticle();
+					break;
+				}
+				case 2 : {
+					_bibliotheque.consulterArticlesParution();
+					break;
+				}                              
+				default : {
+					break;
+				}
+			}
+	} while (menuArt != 0);	
+}
+
+public void menuRecherche() {
+	Integer menuRech;
+	do {
+		EntreesSorties.afficherMessage(" ========================================================");
+		EntreesSorties.afficherMessage("| Saisissez un numero correspondant :                    |");
+		EntreesSorties.afficherMessage("| Lister les titres : 1                                  |");
+                EntreesSorties.afficherMessage("| Lister les auteurs : 2                                 |");
+		EntreesSorties.afficherMessage("| Lister les mots-clés : 3                               |");
+                EntreesSorties.afficherMessage("| Recherche par titre : 4                                |");
+                EntreesSorties.afficherMessage("| Recherche par auteur : 5                               |");
+                EntreesSorties.afficherMessage("| Recherche par mot-clé : 6                              |");              
+                EntreesSorties.afficherMessage("| Retour au menu principal : 0                           |");
+                EntreesSorties.afficherMessage(" ========================================================");
+		menuRech = EntreesSorties.lireEntier();
+			
+			switch (menuRech){
+				case 1 : {
+					_bibliotheque.listerTitres();
+					break;
+				}
+                                case 2 : {
+                                        _bibliotheque.listerAuteurs();
+                                        break;
+                                }
+				case 3 : {
+					_bibliotheque.listerMotsCles();
+					break;
+				}
+				case 4 : {
+					_bibliotheque.rechercheTitre();
+					break;
+				}
+				case 5 : {
+					_bibliotheque.rechercheAuteur();
+					break;
+				}                                
+				case 6 : {
+					_bibliotheque.rechercheMotCle();
+					break;
+				}
+                                default : {
+					break;
+				}
+			}
+	} while (menuRech != 0);	
 }
 
 }

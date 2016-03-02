@@ -1,3 +1,0 @@
-enum Disponibilite {
-empruntable, consultable;
-}

@@ -1,0 +1,3 @@
+enum Disponibilite {
+empruntable, consultable;
+}
